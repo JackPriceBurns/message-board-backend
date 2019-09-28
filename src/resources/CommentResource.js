@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const moment = require('moment');
 const Resource = require('./Resource');
+const UserResource = require("./UserResource");
 
 module.exports = _.merge(_.clone(Resource), {
     /**
@@ -11,8 +12,8 @@ module.exports = _.merge(_.clone(Resource), {
     toArray(resource) {
         return {
             id: resource.id,
-            name: resource.name,
-            email: resource.email,
+            message: resource.message,
+            user: UserResource.make(resource.user),
             created_at: moment(resource.created_at).toISOString(),
             updated_at: moment(resource.updated_at).toISOString(),
         };
