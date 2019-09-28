@@ -1,0 +1,12 @@
+{
+  "name": "message-board-backend",
+  "version": "0.0.1",
+  "description": "The backend of the Simple Message Board app",
+  "main": "index.js",
+  "repository": "https://github.com/JackPriceBurns/message-board-backend",
+  "author": "Jack Price-Burns",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
