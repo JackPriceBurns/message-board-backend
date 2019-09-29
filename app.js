@@ -1,18 +1,19 @@
-const express = require('express');
-const handler = require('./src/handler');
-const resolver = require('./src/resolver');
+// Services
+require('./src/services');
+const config = resolve('config');
 
-const db = require('./src/database');
+// Express
+const express = require('express');
 const app = express();
 
-global.resolve = name => {
-    return resolver.resolve(name);
-};
+// Accept JSON post data.
+app.use(express.json());
 
-resolver.register('db', db);
-resolver.register('app', app);
-resolver.register('handler', handler);
+// Add the app to the resolver.
+registerService('app', app);
 
+// Register the app routes.
 require('./src/routes')();
 
-app.listen(process.env.APP_PORT || 8000);
+// Listen.
+app.listen(config('port'));

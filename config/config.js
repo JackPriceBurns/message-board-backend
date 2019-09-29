@@ -1,9 +1,39 @@
+function env(name, fallback = null) {
+    let value = process.env[name];
+
+    if (value === undefined) {
+        return fallback;
+    }
+
+    return value;
+}
+
 module.exports = {
-    host: process.env.DB_HOST || '127.0.0.1',
-    user: process.env.DB_USERNAME || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_DATABASE || 'message_board',
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+    /**
+     * The port to listen on.
+     */
+    port: env('APP_PORT', 8000),
+
+    /**
+     * Debug Mode
+     */
+    debug: env('APP_DEBUG', 'true') === 'true',
+
+    /**
+     * The JWT secret for signing JWT keys.
+     */
+    jwtSecret: env('JWT_SECRET', 'L, do you know? Gods of death love apples.'),
+
+    /**
+     * Database Connection
+     */
+    database: {
+        host: env('DB_HOST', '127.0.0.1'),
+        user: env('DB_USERNAME', 'root'),
+        password: env('DB_PASSWORD', ''),
+        database: env('DB_DATABASE', 'message_board'),
+        connectionLimit: env('DB_LIMIT', 10),
+        waitForConnections: true,
+        queueLimit: 0
+    }
 };

@@ -1,10 +1,7 @@
-const app = resolve('app');
 const api = require('../routes/api');
+const guest = require('../routes/guest');
 
 module.exports = () => {
-    app.get('/', (request, response) => response.json({
-        api: 'Message Board API'
-    }));
-
+    guest();
     api();
 };

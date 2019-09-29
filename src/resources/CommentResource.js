@@ -10,12 +10,25 @@ module.exports = _.merge(_.clone(Resource), {
      * @param resource
      */
     toArray(resource) {
+        let user = this.getUser(resource);
+
         return {
             id: resource.id,
             message: resource.message,
-            user: UserResource.make(resource.user),
+            ...user,
             created_at: moment(resource.created_at).toISOString(),
             updated_at: moment(resource.updated_at).toISOString(),
         };
-    }
+    },
+
+    /**
+     * @param resource
+     */
+    getUser(resource) {
+        if (!resource.user) {
+            return {};
+        }
+
+        return {user: UserResource.make(resource.user, false)};
+    },
 });

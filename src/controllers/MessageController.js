@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const User = require('../models/User');
+const Validator = resolve('validator');
 const Message = require('../models/Message');
 const Comment = require('../models/Comment');
 const MessageResource = require('../resources/MessageResource');
@@ -15,7 +15,7 @@ module.exports = {
      */
     async index(request, response) {
         let messages = await Message.all({orderBy: {column: 'created_at'}});
-        let comments = await Comment.all({orderBy: {column: 'created_at'}});
+        let comments = await Comment.all({orderBy: {column: 'created_at', order: 'DESC'}});
 
         comments = await Comment.load(comments, 'user');
         messages = await Message.load(messages, 'user');
@@ -62,7 +62,18 @@ module.exports = {
      * @returns {function}
      */
     async store(request, response) {
-        //
+        await Validator.validate(request.body, {
+            message: 'required|minLength:10'
+        });
+
+        let message = await Message.create({
+            message: request.body.message,
+            user_id: request.user.id,
+        });
+
+        return await response.json(
+            MessageResource.make(message)
+        );
     },
 
     /**

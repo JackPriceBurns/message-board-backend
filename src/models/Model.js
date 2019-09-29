@@ -1,9 +1,11 @@
 const db = resolve('db');
 const _ = require('lodash');
+const moment = require('moment');
 
 module.exports = {
     key: 'id',
     table: undefined,
+    timestamps: true,
 
     /**
      * Get all resources.
@@ -102,6 +104,27 @@ module.exports = {
         }
 
         return results[0];
+    },
+
+    /**
+     * Create the resource in the database.
+     *
+     * @param data
+     *
+     * @returns {Promise<void>}
+     */
+    async create(data) {
+        if (this.timestamps) {
+            data.created_at = moment().format('YYYY-MM-DD HH:mm:ss');
+            data.updated_at = moment().format('YYYY-MM-DD HH:mm:ss');
+        }
+
+        let columns = _.join(Object.keys(data), ', ');
+        let values = Object.values(data);
+
+        let result = await this.query(`INSERT INTO ${this.table} (${columns}) VALUES (?)`, [values]);
+
+        return await this.findOrFail(result.insertId);
     },
 
     /**

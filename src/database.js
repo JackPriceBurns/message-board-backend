@@ -1,4 +1,4 @@
 const mysql = require('mysql2');
-const config = require('../config/config');
+const config = resolve('config');
 
-module.exports = mysql.createPool(config).promise();
+module.exports = mysql.createPool(config('database')).promise();
