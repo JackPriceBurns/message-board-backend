@@ -12,7 +12,7 @@ module.exports = {
      * @returns {function}
      */
     async index(request, response) {
-        let messages = await Message.all({orderBy: {column: 'created_at'}});
+        let messages = await Message.all({orderBy: {column: 'created_at', order: 'DESC'}});
 
         messages = await Message.load(messages, 'user');
 

@@ -13,9 +13,15 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async auth(request, response, next) {
-        let token = request.header('Authorization').replace('Bearer ', '');
-        let data = jwt.verify(token, config('jwtSecret'));
+        let token = request.header('Authorization');
 
+        if (!token) {
+            throw new Error('Unauthenticated');
+        }
+
+        token = token.replace('Bearer ', '');
+
+        let data = jwt.verify(token, config('jwtSecret'));
         let user = await User.find(data.id);
 
         if (!user) {
