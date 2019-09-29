@@ -61,6 +61,10 @@ module.exports = {
             resources = [resources];
         }
 
+        if (resources.length === 0) {
+            return single ? resources[0] : resources;
+        }
+
         let ids = _.uniq(_.map(resources, resource => resource[relation.localKey]));
 
         let results = await this.query(`SELECT * FROM ${relation.table} WHERE ${relation.foreignKey} IN (?)`, [ids]);
@@ -134,13 +138,24 @@ module.exports = {
      * @returns {Promise<*>}
      */
     async findOrFail(id) {
-        let resource = this.findOne(id);
+        let resource = await this.findOne(id);
 
         if (!resource) {
             throw new Error('ResourceNotFound');
         }
 
         return resource;
+    },
+
+    /**
+     * Delete the specified resource.
+     *
+     * @param resource
+     *
+     * @returns {Promise<void>}
+     */
+    async delete(resource) {
+        await this.query(`DELETE FROM ${this.table} WHERE ${this.key} = ?`, resource[this.key]);
     },
 
     /**
