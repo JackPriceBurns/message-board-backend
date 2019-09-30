@@ -34,7 +34,7 @@ module.exports = {
         let message = await Message.findOrFail(request.params.id);
 
         let page = parseInt(request.query.page) || 1;
-        let limit = 10;
+        let limit = 5;
 
         let comments = await Comment.all({
             where: {column: 'message_id', value: message.id},

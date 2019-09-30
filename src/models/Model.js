@@ -159,6 +159,23 @@ module.exports = {
     },
 
     /**
+     * Delete all the specified resource.
+     *
+     * @returns {Promise<void>}
+     */
+    async deleteAll(options) {
+        let query = `DELETE FROM ${this.table}`;
+        let values = [];
+
+        if (options && options.where) {
+            query += ` WHERE ${options.where.column} = ?`;
+            values = options.where.value;
+        }
+
+        await this.query(`DELETE FROM ${this.table}`, values);
+    },
+
+    /**
      * Query the database.
      *
      * @param query

@@ -1,5 +1,6 @@
 const Validator = resolve('validator');
 const Message = require('../models/Message');
+const Comment = require('../models/Comment');
 const MessageResource = require('../resources/MessageResource');
 
 module.exports = {
@@ -12,7 +13,13 @@ module.exports = {
      * @returns {function}
      */
     async index(request, response) {
-        let messages = await Message.all({orderBy: {column: 'created_at', order: 'DESC'}});
+        let page = parseInt(request.query.page) || 1;
+        let limit = 5;
+
+        let messages = await Message.all({
+            orderBy: {column: 'created_at', order: 'DESC'},
+            limit: (page - 1) * limit + ', ' + limit,
+        });
 
         messages = await Message.load(messages, 'user');
 
@@ -87,6 +94,7 @@ module.exports = {
     async destroy(request, response) {
         let message = await Message.findOrFail(request.params.id);
 
+        await Comment.deleteAll({where: {column: 'message_id', value: message.id}});
         await Message.delete(message);
 
         return await response.json(
