@@ -49,7 +49,7 @@ module.exports = {
      */
     async store(request, response) {
         await Validator.validate(request.body, {
-            message: 'required|minLength:10'
+            message: 'required'
         });
 
         let message = await Message.create({

@@ -59,7 +59,7 @@ module.exports = {
      */
     async store(request, response) {
         await Validator.validate(request.body, {
-            message: 'required|minLength:10',
+            message: 'required',
             message_id: 'required|integer'
         });
 
@@ -74,6 +74,8 @@ module.exports = {
             user_id: request.user.id,
             message_id: message.id,
         });
+
+        comment.user = request.user;
 
         return await response.json(
             CommentResource.make(comment)
