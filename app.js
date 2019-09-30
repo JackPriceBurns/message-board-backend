@@ -18,7 +18,13 @@ app.use(cors());
 registerService('app', app);
 
 // Register the app routes.
-require('./src/routes')();
+require('./src/routes');
 
-// Listen.
-app.listen(config('port'));
+// Listen for http connections.
+let server = app.listen(config('port'));
+
+// Add the server to the resolver.
+registerService('server', server);
+
+// Setup socket.io.
+require('./src/sockets');
