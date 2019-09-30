@@ -57,6 +57,8 @@ module.exports = {
             user_id: request.user.id,
         });
 
+        message.user = request.user;
+
         return await response.json(
             MessageResource.make(message)
         );
