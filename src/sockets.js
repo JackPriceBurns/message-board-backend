@@ -1,29 +1,24 @@
-const config = resolve('config');
 const server = resolve('server');
-const jwt = require('jsonwebtoken');
-const User = require('./models/User');
-const socketManager = require('./socketManager');
+const authManager = resolve('authManager');
+const socketManager = resolve('socketManager');
 
+// Setup socket.io
 const io = require('socket.io').listen(server);
 
+// Function to ensure the user is authenticated.
 async function authenticate(socket, next) {
     if (!socket.handshake.query || !socket.handshake.query.token){
         return next(new Error('Authentication error'));
     }
 
-    let data = jwt.verify(socket.handshake.query.token, config('jwtSecret'));
-    let user = await User.find(data.id);
+    try {
+        socket.user = await authManager.retrieveByToken(socket.handshake.query.token);
 
-    if (!user) {
+        return next();
+    } catch (error) {
         return next(new Error('Authentication error'));
     }
-
-    socket.decoded = data;
-
-    next();
 }
-
-registerService('socketManager', socketManager);
 
 io.use(authenticate)
     .on('connection', socket => {

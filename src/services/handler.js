@@ -5,7 +5,7 @@ async function handleError(error, response) {
     let errorJson = {};
 
     // If app is in debug, add extra error information.
-    if (config('debug')) {
+    if (config('app.debug')) {
         errorJson = {
             error: error.message,
             stack: parser.parse(error.stack),

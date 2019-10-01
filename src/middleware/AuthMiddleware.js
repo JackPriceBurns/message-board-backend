@@ -1,6 +1,4 @@
-const config = resolve('config');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const AuthManager = resolve('authManager');
 
 module.exports = {
     /**
@@ -19,17 +17,12 @@ module.exports = {
             throw new Error('Unauthenticated');
         }
 
-        token = token.replace('Bearer ', '');
+        try {
+            request.user = await AuthManager.retrieveByToken(token);
 
-        let data = jwt.verify(token, config('jwtSecret'));
-        let user = await User.find(data.id);
-
-        if (!user) {
+            return await next();
+        } catch(error) {
             throw new Error('Unauthenticated');
         }
-
-        request.user = user;
-
-        await next();
     },
 };
