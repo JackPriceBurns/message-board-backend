@@ -19,7 +19,7 @@ function messageDoesNotExist() {
         }
     ];
 
-    throw error;
+    return error;
 }
 
 module.exports = {
@@ -67,7 +67,7 @@ module.exports = {
         let message = await Message.find(request.body.message_id);
 
         if (!message) {
-            messageDoesNotExist();
+            throw messageDoesNotExist();
         }
 
         let comment = await Comment.create({

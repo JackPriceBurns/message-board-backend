@@ -29,40 +29,4 @@ module.exports = {
             UserResource.make(await User.findOrFail(request.params.id))
         );
     },
-
-    /**
-     * Store a new user.
-     *
-     * @param request
-     * @param response
-     *
-     * @returns {function}
-     */
-    async store(request, response) {
-        //
-    },
-
-    /**
-     * Update a user.
-     *
-     * @param request
-     * @param response
-     *
-     * @returns {function}
-     */
-    async update(request, response) {
-        //
-    },
-
-    /**
-     * Delete a user.
-     *
-     * @param request
-     * @param response
-     *
-     * @returns {function}
-     */
-    async destroy(request, response) {
-        //
-    },
 };

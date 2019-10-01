@@ -77,18 +77,6 @@ module.exports = {
     },
 
     /**
-     * Update a message.
-     *
-     * @param request
-     * @param response
-     *
-     * @returns {function}
-     */
-    async update(request, response) {
-        //
-    },
-
-    /**
      * Delete a message.
      *
      * @param request
