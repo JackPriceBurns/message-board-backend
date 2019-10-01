@@ -1,6 +1,7 @@
 const Validator = resolve('validator');
 const Message = require('../models/Message');
 const Comment = require('../models/Comment');
+const SocketManager = resolve('socketManager');
 const CommentResource = require('../resources/CommentResource');
 
 /**
@@ -77,6 +78,10 @@ module.exports = {
 
         comment.user = request.user;
 
+        SocketManager.broadcast('commentCreated',
+            CommentResource.make(comment, false)
+        );
+
         return await response.json(
             CommentResource.make(comment)
         );
@@ -94,6 +99,10 @@ module.exports = {
         let comment = await Comment.findOrFail(request.params.id);
 
         await Comment.delete(comment);
+
+        SocketManager.broadcast('commentDeleted',
+            CommentResource.make(comment, false)
+        );
 
         return await response.json(
             CommentResource.make(comment)

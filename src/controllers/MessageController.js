@@ -1,6 +1,7 @@
 const Validator = resolve('validator');
 const Message = require('../models/Message');
 const Comment = require('../models/Comment');
+const SocketManager = resolve('socketManager');
 const MessageResource = require('../resources/MessageResource');
 
 module.exports = {
@@ -66,6 +67,10 @@ module.exports = {
 
         message.user = request.user;
 
+        SocketManager.broadcast('messageCreated',
+            MessageResource.make(message, false)
+        );
+
         return await response.json(
             MessageResource.make(message)
         );
@@ -96,6 +101,10 @@ module.exports = {
 
         await Comment.deleteAll({where: {column: 'message_id', value: message.id}});
         await Message.delete(message);
+
+        SocketManager.broadcast('messageDeleted',
+            MessageResource.make(message, false)
+        );
 
         return await response.json(
             MessageResource.make(message)

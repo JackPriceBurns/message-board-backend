@@ -15,6 +15,7 @@ module.exports = _.merge(_.clone(Resource), {
         return {
             id: resource.id,
             message: resource.message,
+            message_id: resource.message_id,
             ...user,
             created_at: moment(resource.created_at).toISOString(),
             updated_at: moment(resource.updated_at).toISOString(),
