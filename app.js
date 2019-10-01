@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 // Services
 require('./src/services');
 

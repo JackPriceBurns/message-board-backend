@@ -61,10 +61,6 @@ module.exports = {
      * @returns {Promise<string>}
      */
     async signObject(object) {
-        try {
-            return jwt.sign(object, config('app.jwtSecret'))
-        } catch (error) {
-            throw new Error('Unauthenticated')
-        }
+        return jwt.sign(object, config('app.jwtSecret'));
     }
 };
