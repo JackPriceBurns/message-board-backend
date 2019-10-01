@@ -1,9 +1,9 @@
 // Core Services
-const resolver = require('./services/resolver');
+const ServiceManager = require('./managers/ServiceManager');
 const ConfigManager = require('./managers/ConfigManager');
 
-global.resolve = resolver.resolve;
-global.registerService = resolver.register;
+global.resolve = ServiceManager.resolve;
+global.registerService = ServiceManager.register;
 
 // Load the configuration.
 ConfigManager.set('app', require('../config/config'));
@@ -13,9 +13,18 @@ registerService('config', ConfigManager.get);
 
 // Services
 const db = require('./services/database');
-const handler = require('./services/handler');
 const validator = require('./services/validator');
 
+// Register services.
 registerService('db', db);
-registerService('handler', handler);
 registerService('validator', validator);
+
+// Managers
+const AuthManager = require('./managers/AuthManager');
+const SocketManager = require('./managers/SocketManager');
+const ExceptionManager = require('./managers/ExceptionManager');
+
+// Register managers.
+registerService('authManager', AuthManager);
+registerService('socketManager', SocketManager);
+registerService('handler', ExceptionManager.handleController);

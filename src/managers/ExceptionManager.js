@@ -55,12 +55,21 @@ async function handleError(error, response) {
     });
 }
 
-module.exports = callback => {
-    return async (request, response, ...args) => {
-        try {
-            return await callback(request, response, ...args);
-        } catch (error) {
-            return await handleError(error, response);
-        }
-    };
+module.exports = {
+    /**
+     * Create an exception handler wrapper for a controller.
+     *
+     * @param {Function} controllerMethod
+     *
+     * @returns {Function}
+     */
+    handleController(controllerMethod) {
+        return async (request, response, ...args) => {
+            try {
+                return await controllerMethod(request, response, ...args);
+            } catch (error) {
+                return await handleError(error, response);
+            }
+        };
+    }
 };

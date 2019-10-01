@@ -1,6 +1,5 @@
 // Services
 require('./src/services');
-require('./src/managers');
 
 // Express
 require('./src/express');

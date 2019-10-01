@@ -1,6 +1,6 @@
-module.exports = {
-    objects: {},
+const objects = {};
 
+module.exports = {
     /**
      * Register an object.
      *
@@ -9,10 +9,7 @@ module.exports = {
      * @param value
      */
     register(name, value) {
-        this.objects = {
-            [name]: value,
-            ...this.objects
-        };
+        objects[name] = value;
     },
 
     /**
@@ -23,10 +20,10 @@ module.exports = {
      * @returns {*}
      */
     resolve(name) {
-        if (!this.objects[name]) {
+        if (!objects[name]) {
             throw `Unable to resolve "${name}".`;
         }
 
-        return this.objects[name];
+        return objects[name];
     },
 };
