@@ -17,7 +17,7 @@ module.exports = {
     /**
      * Debug Mode
      */
-    debug: env('APP_DEBUG', 'true') === 'true',
+    debug: env('APP_DEBUG', false) === 'true',
 
     /**
      * The JWT secret for signing JWT keys.
