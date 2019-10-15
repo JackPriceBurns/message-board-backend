@@ -11,20 +11,11 @@ ConfigManager.set('app', require('../config/config'));
 // Register config first as services need access to config.
 registerService('config', ConfigManager.get);
 
-// Services
-const db = require('./services/database');
-const validator = require('./services/validator');
-
 // Register services.
-registerService('db', db);
-registerService('validator', validator);
-
-// Managers
-const AuthManager = require('./managers/AuthManager');
-const SocketManager = require('./managers/SocketManager');
-const ExceptionManager = require('./managers/ExceptionManager');
+registerService('db', require('./services/database'));
+registerService('validator', require('./services/validator'));
 
 // Register managers.
-registerService('authManager', AuthManager);
-registerService('socketManager', SocketManager);
-registerService('handler', ExceptionManager.handleController);
+registerService('authManager', require('./managers/AuthManager'));
+registerService('socketManager', require('./managers/SocketManager'));
+registerService('handler', require('./managers/ExceptionManager').handleController);

@@ -14,6 +14,9 @@ app.use(cors());
 // Add the app to the resolver.
 registerService('app', app);
 
+// Register the router.
+registerService('router', require('./services/router'));
+
 // Register the app routes.
 require('../routes/api');
 require('../routes/guest');

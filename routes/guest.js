@@ -1,10 +1,9 @@
-const app = resolve('app');
-const handler = resolve('handler');
+const router = resolve('router');
 const HomeController = require('../src/controllers/HomeController');
 const AuthController = require('../src/controllers/AuthController');
 
 // Home page.
-app.get('/', handler(HomeController.home));
+router.get('/', HomeController.home);
 
 // Login route.
-app.post('/auth', handler(AuthController.auth));
+router.post('/auth', AuthController.auth);
